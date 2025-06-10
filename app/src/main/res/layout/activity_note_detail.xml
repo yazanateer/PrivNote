@@ -12,37 +12,40 @@
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QuickSecureNotes"
+        android:text="Edit Note"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="16dp" />
 
-    <!-- RecyclerView for items -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewItems"
+    <!-- Editable Text Area for Note Content -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/textViewTitle"
-        android:layout_above="@id/fabAddItem"
-        android:clipToPadding="false"
-        android:paddingBottom="24dp"
-        android:scrollbars="vertical" />
+        android:fillViewport="true">
 
-    <!-- Floating Action Button to add items -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
-        android:contentDescription="Add Item"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        app:tint="@android:color/white"
-        app:backgroundTint="#00E5C4"
-        app:elevation="8dp" />
+        <EditText
+            android:id="@+id/editTextNoteContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="400dp"
+            android:gravity="top|start"
+            android:inputType="textMultiLine|textCapSentences"
+            android:background="@drawable/edit_text_background"
+            android:padding="16dp"
+            android:hint="Start writing your note..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"
+            android:overScrollMode="always"
+            android:textCursorDrawable="@null"
+            android:textColorHighlight="#33FFFFFF" />
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.privnote;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -16,9 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 public class NotesActivity extends AppCompatActivity {
 
@@ -60,27 +59,25 @@ public class NotesActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(v -> showAddNoteDialog());
     }
 
-    private void loadNotes() {
-        notesList.clear();
+    public void loadNotes() {
+        String encryptedJson = sharedPreferences.getString(NOTES_KEY, null);
+        if (encryptedJson != null) {
+            Type type = new TypeToken<ArrayList<String>>() {}.getType(); // ✅ expecting list of encrypted strings
+            ArrayList<String> encryptedNotes = gson.fromJson(encryptedJson, type);
+            notesList.clear();
 
-        // Check if we have old format data (StringSet) and migrate it
-        if (sharedPreferences.contains(NOTES_KEY)) {
-            try {
-                // Try to read as new format (JSON String)
-                String notesJson = sharedPreferences.getString(NOTES_KEY, "[]");
-                Type listType = new TypeToken<List<Note>>(){}.getType();
-                List<Note> loadedNotes = gson.fromJson(notesJson, listType);
-
-                if (loadedNotes != null) {
-                    notesList.addAll(loadedNotes);
+            for (String encryptedNote : encryptedNotes) {
+                String decrypted = CryptoNotes.decrypt(encryptedNote); // ✅ decrypt into JSON
+                if (decrypted != null) {
+                    try {
+                        Note note = gson.fromJson(decrypted, Note.class); // ✅ parse into Note object
+                        if (note != null) {
+                            notesList.add(note);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace(); // safe catch to prevent crash on bad data
+                    }
                 }
-            } catch (ClassCastException e) {
-                // Old format detected - migrate from StringSet to new format
-                Set<String> oldNotes = sharedPreferences.getStringSet(NOTES_KEY, new HashSet<>());
-                for (String oldNote : oldNotes) {
-                    notesList.add(new Note(oldNote));
-                }
-                saveNotes();
             }
         }
 
@@ -94,10 +91,16 @@ public class NotesActivity extends AppCompatActivity {
     }
 
     public void saveNotes() {
-        String notesJson = gson.toJson(notesList);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(NOTES_KEY, notesJson);
-        editor.apply();
+        ArrayList<String> encryptedNotes = new ArrayList<>();
+        for (Note note : notesList) {
+            String encrypted = CryptoNotes.encrypt(gson.toJson(note)); // ✅ encrypt JSON string of Note
+            if (encrypted != null) {
+                encryptedNotes.add(encrypted);
+            }
+        }
+
+        String encryptedJson = gson.toJson(encryptedNotes); // ✅ save list of encrypted strings
+        sharedPreferences.edit().putString(NOTES_KEY, encryptedJson).apply();
 
         if (noteAdapter != null) {
             noteAdapter.notifyDataSetChanged();

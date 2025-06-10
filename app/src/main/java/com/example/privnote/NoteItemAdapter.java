@@ -63,4 +63,6 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ItemVi
             textViewItem = itemView.findViewById(R.id.textViewItem);
         }
     }
+
+
 }
