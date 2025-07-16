@@ -1,4 +1,4 @@
-# 🔐 QuickSecureNotes
+# 🔐 PrivNotes
 
 > A lightweight and secure note-taking Android app that encrypts your notes using AES-128 and stores them safely on your device.
 
