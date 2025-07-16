@@ -60,29 +60,6 @@ public class NoteDetailActivity extends AppCompatActivity {
         editTextNoteContent = findViewById(R.id.editTextNoteContent);
     }
 
-//private void loadNote() {
-//    String encryptedJson = sharedPreferences.getString(NOTES_KEY, null);
-//    if (encryptedJson == null) {
-//        finish();
-//        return;
-//    }
-//
-//    Type listType = new TypeToken<List<String>>() {}.getType();
-//    List<String> encryptedNotes = gson.fromJson(encryptedJson, listType);
-//
-//    if (encryptedNotes != null && noteIndex < encryptedNotes.size()) {
-//        String decrypted = CryptoNotes.decrypt(encryptedNotes.get(noteIndex));
-//        if (decrypted != null) {
-//            currentNote = gson.fromJson(decrypted, Note.class);
-//            setTitle(currentNote.getTitle());
-//        } else {
-//            finish();
-//        }
-//    } else {
-//        finish();
-//    }
-//}
-
     private void loadNote() {
         String encryptedJson = sharedPreferences.getString(NOTES_KEY, null);
         if (encryptedJson == null) {
@@ -128,7 +105,6 @@ public class NoteDetailActivity extends AppCompatActivity {
             }
         }
         editTextNoteContent.setText(content.toString());
-
         // Set cursor to end
         editTextNoteContent.setSelection(editTextNoteContent.getText().length());
     }
@@ -193,7 +169,6 @@ public class NoteDetailActivity extends AppCompatActivity {
     }
 
     public void deleteItem(int position) {
-        // Example logic to remove item from the list and notify the adapter
-        // Optional: Update SharedPreferences or storage
+
     }
 }

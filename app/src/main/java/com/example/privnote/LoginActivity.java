@@ -13,7 +13,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText editTextPin;
     private MaterialButton buttonLogin;
 
-    private static final String CORRECT_PIN = "1234"; // You can replace this with secure storage later
+    private static final String CORRECT_PIN = "1234";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

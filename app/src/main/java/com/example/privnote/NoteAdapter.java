@@ -69,7 +69,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView textViewNote;
-
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewNote = itemView.findViewById(R.id.textViewNote);
