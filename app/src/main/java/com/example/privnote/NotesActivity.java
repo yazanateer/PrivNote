@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 public class NotesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewNotes;
+    private TextView textViewEmptyState;
     private FloatingActionButton fabAdd;
     private NoteAdapter noteAdapter;
     private ArrayList<Note> notesList = new ArrayList<>();
@@ -53,6 +56,8 @@ public class NotesActivity extends AppCompatActivity {
     private void findViews() {
         recyclerViewNotes = findViewById(R.id.recyclerViewNotes);
         fabAdd = findViewById(R.id.fabAdd);
+        textViewEmptyState = findViewById(R.id.textViewEmptyState);
+
     }
 
     private void setupListeners() {
@@ -62,15 +67,15 @@ public class NotesActivity extends AppCompatActivity {
     public void loadNotes() {
         String encryptedJson = sharedPreferences.getString(NOTES_KEY, null);
         if (encryptedJson != null) {
-            Type type = new TypeToken<ArrayList<String>>() {}.getType(); // ✅ expecting list of encrypted strings
+            Type type = new TypeToken<ArrayList<String>>() {}.getType();
             ArrayList<String> encryptedNotes = gson.fromJson(encryptedJson, type);
             notesList.clear();
 
             for (String encryptedNote : encryptedNotes) {
-                String decrypted = CryptoNotes.decrypt(encryptedNote); // ✅ decrypt into JSON
+                String decrypted = CryptoNotes.decrypt(encryptedNote);
                 if (decrypted != null) {
                     try {
-                        Note note = gson.fromJson(decrypted, Note.class); // ✅ parse into Note object
+                        Note note = gson.fromJson(decrypted, Note.class);
                         if (note != null) {
                             notesList.add(note);
                         }
@@ -88,22 +93,36 @@ public class NotesActivity extends AppCompatActivity {
         } else {
             noteAdapter.notifyDataSetChanged();
         }
+
+        updateEmptyState();
     }
 
     public void saveNotes() {
         ArrayList<String> encryptedNotes = new ArrayList<>();
         for (Note note : notesList) {
-            String encrypted = CryptoNotes.encrypt(gson.toJson(note)); // ✅ encrypt JSON string of Note
+            String encrypted = CryptoNotes.encrypt(gson.toJson(note));
             if (encrypted != null) {
                 encryptedNotes.add(encrypted);
             }
         }
 
-        String encryptedJson = gson.toJson(encryptedNotes); // ✅ save list of encrypted strings
+        String encryptedJson = gson.toJson(encryptedNotes);
         sharedPreferences.edit().putString(NOTES_KEY, encryptedJson).apply();
 
         if (noteAdapter != null) {
             noteAdapter.notifyDataSetChanged();
+        }
+
+        updateEmptyState();
+    }
+
+    private void updateEmptyState() {
+        if (notesList.isEmpty()) {
+            textViewEmptyState.setVisibility(View.VISIBLE);
+            recyclerViewNotes.setVisibility(View.GONE);
+        } else {
+            textViewEmptyState.setVisibility(View.GONE);
+            recyclerViewNotes.setVisibility(View.VISIBLE);
         }
     }
 
