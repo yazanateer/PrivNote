@@ -7,6 +7,19 @@
     android:background="#121212"
     android:padding="16dp">
 
+
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:padding="4dp"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back"
+        app:tint="#FFFFFF" />
+
     <!-- Title -->
     <TextView
         android:id="@+id/textViewTitle"

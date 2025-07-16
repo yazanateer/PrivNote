@@ -7,7 +7,7 @@
 ## 📱 Features
 
 - 🧠 Simple and intuitive interface
-- 🔐 AES-128 encryption using CBC mode with PBKDF2 key derivation
+- 🔐 AES-128 encryption using key derivation
 - 🔑 User-defined PIN used as encryption key (never stored)
 - 📂 Secure local storage via SharedPreferences
 - ➕ Add, edit, and delete notes easily
@@ -18,11 +18,7 @@
 ## 🔧 How It Works
 
 ### 🔐 Encryption
-- **Algorithm**: AES/CBC/PKCS5Padding
-- **Key Derivation**: PBKDF2 with HMAC-SHA256
-    - Salt: Constant string
-    - Iterations: 65,536
-    - Key size: 128 bits
+- **Algorithm**: AES
 - **IV (Initialization Vector)**: Randomly generated for each encryption, stored with the ciphertext
 
 ### 📦 Storage
@@ -32,9 +28,24 @@
 ---
 
 ### 🛡 Security Highlights
-  - The PIN is not stored anywhere and is only used at runtime
   - Notes are unreadable without the correct PIN
   - All data is stored locally — nothing leaves the device
 
 ---
+
+
+### 🔐 Login Screen
+![Login Screen](images/login.png)
+
+### 📝 Empty Notes List
+![Empty Notes List](images/emptyNotes.png)
+
+### 📝 Notes List
+![Notes List](images/NotesList.png)
+
+### ✏️ Edit Note
+![Edit Note](images/Notes.png)
+
+### 🔐️ Encrypted Notes
+![Encrypted Note](images/encryptedData.png)
 

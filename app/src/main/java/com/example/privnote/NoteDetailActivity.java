@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,6 +50,10 @@ public class NoteDetailActivity extends AppCompatActivity {
         findViews();
         setupListeners();
         displayNoteContent();
+
+
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> finish()); // Finish current activity to go back
     }
 
     private void findViews() {
