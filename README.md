@@ -31,5 +31,10 @@
 
 ---
 
-## 📁 Project Structure
+### 🛡 Security Highlights
+  - The PIN is not stored anywhere and is only used at runtime
+  - Notes are unreadable without the correct PIN
+  - All data is stored locally — nothing leaves the device
+
+---
 
